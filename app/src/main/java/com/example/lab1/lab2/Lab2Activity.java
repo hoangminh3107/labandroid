@@ -32,6 +32,15 @@ public class Lab2Activity extends AppCompatActivity {
 
         @Override
         public boolean handleMessage(@NonNull Message message) {
+           switch (message.what) {
+                case 1:
+                    String result = (String) message.obj;
+                   
+                    textView.setText(result);
+                    break;
+                default:
+                    break;
+            }
             return false;
         }
     });
