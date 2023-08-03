@@ -1,6 +1,8 @@
 package com.example.lab1.asm;
 
-public class NasaModel {
+import java.io.Serializable;
+
+public class NasaModel implements Serializable {
     private String copyright;
     private String date;
     private String explanation;
@@ -9,8 +11,9 @@ public class NasaModel {
     private String service_version;
     private String title;
     private String url;
+    private String _id;
 
-    public NasaModel(String copyright, String date, String explanation, String hdurl, String media_type, String service_version, String title, String url) {
+    public NasaModel(String copyright, String date, String explanation, String hdurl, String media_type, String service_version, String title, String url, String _id) {
         this.copyright = copyright;
         this.date = date;
         this.explanation = explanation;
@@ -19,6 +22,15 @@ public class NasaModel {
         this.service_version = service_version;
         this.title = title;
         this.url = url;
+        this._id = _id;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public String getCopyright() {

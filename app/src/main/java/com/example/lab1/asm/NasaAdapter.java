@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,13 +22,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class NasaAdapter extends RecyclerView.Adapter<NasaAdapter.ViewHolder> {
     Context context;
     List<NasaModel> cartList;
+    private OnDataChangeListener onDataChangeListener;
 
-    public NasaAdapter(Context context, List<NasaModel> cartList) {
+
+    public NasaAdapter(Context context, List<NasaModel> cartList, OnDataChangeListener onDataChangeListener) {
         this.context = context;
         this.cartList = cartList;
+        this.onDataChangeListener = onDataChangeListener;
     }
 
     @Override
@@ -47,28 +52,19 @@ public class NasaAdapter extends RecyclerView.Adapter<NasaAdapter.ViewHolder> {
         holder.tv6.setText("service_version : "+oder.getService_version());
         holder.tv7.setText("title : "+oder.getTitle());
         holder.tv8.setText("url : "+oder.getUrl());
+        holder.tvid.setText("Id : "+oder.get_id());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.btnXoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("data", cartList.get(holder.getAdapterPosition()).getUrl().toString());
-                Toast.makeText(context, "sád", Toast.LENGTH_SHORT).show();
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://192.168.137.1:3000/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                Api api = retrofit.create(Api.class);
-                api.createCart(cartList).enqueue(new Callback<List<NasaModel>>() {
-                    @Override
-                    public void onResponse(Call<List<NasaModel>> call, Response<List<NasaModel>> response) {
-                        Log.e("aa", response.body().toString());
-                    }
+                onDataChangeListener.onDataChanged(oder.get_id());
+            }
+        });
 
-                    @Override
-                    public void onFailure(Call<List<NasaModel>> call, Throwable t) {
-
-                    }
-                });
+        holder.btnSua.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onDataChangeListener.onDataUpdate(oder);
             }
         });
     }
@@ -79,7 +75,8 @@ public class NasaAdapter extends RecyclerView.Adapter<NasaAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv1, tv2, tv3, tv4,tv5,tv6,tv7,tv8,tv9;
+        TextView tv1, tv2, tv3, tv4,tv5,tv6,tv7,tv8,tv9, tvid;
+        Button btnXoa, btnSua;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -92,6 +89,9 @@ public class NasaAdapter extends RecyclerView.Adapter<NasaAdapter.ViewHolder> {
             tv7 = itemView.findViewById(R.id.tv7);
             tv8 = itemView.findViewById(R.id.tv8);
             tv9 = itemView.findViewById(R.id.tv9);
+            tvid = itemView.findViewById(R.id.id);
+            btnXoa = itemView.findViewById(R.id.btn_xoa);
+            btnSua = itemView.findViewById(R.id.btn_sua);
 
         }
     }
