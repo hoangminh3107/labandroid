@@ -56,6 +56,7 @@ public class AsmActivity extends AppCompatActivity {
 
         btnGetData.setOnClickListener(view -> {
             getDataFromApi();
+            // SAU KHI ADD DATA LÊN SERVER THÌ GỬI ĐI THÔNG BÁO
             serverThread.startServer();
 
         });
@@ -220,6 +221,8 @@ public class AsmActivity extends AppCompatActivity {
         });
     }
 
+
+    // GỬI THÔNG BÁO ĐẾN APP KHÁC
     class ServerThread extends Thread implements Runnable {
         boolean isRunning;
         ServerSocket serverSocket;
